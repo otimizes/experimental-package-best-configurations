@@ -1,0 +1,188 @@
+config1 <- c(0.558899, 0.773355, 0.796601, 0.590258, 0.709965, 0.806435, 0.474836, 0.762892, 0.709361, 0.802696, 0.690630, 0.575426, 0.757998, 0.719299, 0.628426, 0.711208, 0.804250, 0.859273, 0.705953, 0.762216, 0.704446, 0.776092, 0.458612, 0.718562, 0.592063, 0.704635, 0.593656, 0.677098, 0.601987, 0.717657)
+config2 <- c(0.731895, 0.737420, 0.923861, 0.731370, 0.707832, 0.739347, 0.738497, 0.736672, 0.809604, 0.736713, 0.736386, 0.736084, 0.757686, 0.848828, 0.725777, 0.815848, 0.930447, 0.657223, 0.822760, 0.722772, 0.706262, 0.736391, 0.492384, 0.720534, 0.815478, 0.732127, 0.733039, 0.723019, 0.850241, 0.843214)
+config3 <- c(0.758857, 0.841582, 0.754287, 0.707277, 0.734651, 0.752743, 0.620505, 0.753595, 0.757031, 0.764671, 0.758106, 0.731326, 0.766019, 0.843809, 0.720450, 0.620820, 0.648102, 0.703550, 0.722448, 0.762054, 0.709953, 0.699199, 0.702162, 0.747372, 0.609717, 0.621409, 0.661717, 0.695758, 0.724614, 0.980820)
+config4 <- c(0.868977, 0.858066, 0.717255, 0.775043, 0.862399, 0.862898, 0.836189, 0.847778, 0.890667, 0.765523, 0.883238, 0.792888, 0.830344, 0.771507, 0.868327, 0.867679, 0.772741, 0.861578, 0.655983, 0.862734, 0.872258, 0.864111, 0.778286, 0.775346, 0.764404, 0.864658, 0.859767, 0.864277, 0.857841, 0.863980)
+config5 <- c(0.735054, 0.735315, 0.855180, 0.767868, 0.822127, 0.636108, 0.746180, 0.724249, 0.860333, 0.785899, 0.884831, 0.645476, 0.860451, 0.763174, 0.636944, 0.633402, 0.745067, 0.808822, 0.775460, 0.786974, 0.780878, 0.852817, 0.784399, 0.631687, 0.712329, 0.736660, 0.720908, 0.769865, 0.769831, 0.664001)
+config6 <- c(0.883290, 0.788203, 0.785287, 0.865895, 0.745493, 0.883315, 0.746285, 0.791608, 0.794246, 0.866366, 0.812370, 0.787447, 0.789648, 0.880748, 0.859438, 0.710999, 0.790566, 0.863769, 0.881920, 0.860311, 0.788691, 0.789723, 0.790514, 0.787180, 0.869686, 0.837178, 0.693163, 0.789630, 0.787980, 0.889082)
+
+boxplot(config1, config2, config3, config4, config5, config6, main="Results for MM2", names=c("config1", "config2", "config3", "config4", "config5", "config6"), ylab="hypervolume")
+
+
+> y <- c(config1, config2, config3, config4, config5, config6)
+> aux <- c( rep(1,length(config1)), rep(2,length(config2)), rep(3,length(config3)), rep(4,length(config4)), rep(5,length(config5)), rep(6,length(config6)))
+> group <- as.factor(aux)
+> kruskal.test(y ~group)
+
+	Kruskal-Wallis rank sum test
+
+data:  y by group
+Kruskal-Wallis chi-squared = 61.243, df
+= 5, p-value = 6.725e-12
+
+> install.packages('PMCMR')
+Installing package into ‘C:/Users/P8h61m/Documents/R/win-library/4.0’
+(as ‘lib’ is unspecified)
+tentando a URL 'https://cran.rstudio.com/bin/windows/contrib/4.0/PMCMR_4.3.zip'
+Content type 'application/zip' length 448001 bytes (437 KB)
+downloaded 437 KB
+
+package ‘PMCMR’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\P8h61m\AppData\Local\Temp\RtmpsHQ6fZ\downloaded_packages
+> library('PMCMR')
+PMCMR is superseded by PMCMRplus and will be no longer maintained. You may wish to install PMCMRplus instead.
+> methods <- factor(aux, labels=c("config1", "config2", "config3", "config4", "config5", "config6"))
+> posthoc.kruskal.nemenyi.test(x=y, g=methods, method="Tukey")
+
+	Pairwise comparisons using Tukey and Kramer (Nemenyi) test	
+                   with Tukey-Dist approximation for independent samples 
+
+data:  y and methods 
+
+        config1 config2 config3 config4
+config2 0.2141  -       -       -      
+config3 0.9832  0.6228  -       -      
+config4 2.5e-08 0.0022  1.4e-06 -      
+config5 0.1593  1.0000  0.5303  0.0038 
+config6 4.8e-07 0.0134  1.9e-05 0.9963 
+        config5
+config2 -      
+config3 -      
+config4 -      
+config5 -      
+config6 0.0210 
+
+P value adjustment method: none 
+> install.packages('effsize')
+Installing package into ‘C:/Users/P8h61m/Documents/R/win-library/4.0’
+(as ‘lib’ is unspecified)
+tentando a URL 'https://cran.rstudio.com/bin/windows/contrib/4.0/effsize_0.8.1.zip'
+Content type 'application/zip' length 64990 bytes (63 KB)
+downloaded 63 KB
+
+package ‘effsize’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+	C:\Users\P8h61m\AppData\Local\Temp\RtmpsHQ6fZ\downloaded_packages
+> library('effsize')
+
+#config1 vs config2
+
+> VD.A(config1,config2)
+
+Vargha and Delaney A
+
+A estimate: 0.2866667 (medium)
+
+#config1 vs config3
+
+> VD.A(config1,config3)
+
+Vargha and Delaney A
+
+A estimate: 0.4222222 (small)
+
+#config1 vs config4
+
+> VD.A(config1,config4)
+
+Vargha and Delaney A
+
+A estimate: 0.09888889 (large)
+
+#config1 vs config5
+
+> VD.A(config1,config5)
+
+Vargha and Delaney A
+
+A estimate: 0.2966667 (medium)
+
+#config1 vs config6
+
+> VD.A(config1,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.1333333 (large)
+
+#config2 vs config3
+
+> VD.A(config2,config3)
+
+Vargha and Delaney A
+
+A estimate: 0.6177778 (small)
+
+#config2 vs config4
+
+> VD.A(config2,config4)
+
+Vargha and Delaney A
+
+A estimate: 0.1944444 (large)
+
+#config2 vs config5
+
+> VD.A(config2,config5)
+
+Vargha and Delaney A
+
+A estimate: 0.4711111 (negligible)
+
+#config2 vs config6
+
+> VD.A(config2,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.2511111 (large)
+
+#config3 vs config4
+
+> VD.A(config3,config4)
+
+Vargha and Delaney A
+
+A estimate: 0.1044444 (large)
+
+#config3 vs config5
+
+> VD.A(config3,config5)
+
+Vargha and Delaney A
+
+A estimate: 0.3444444 (small)
+
+#config3 vs config6
+
+> VD.A(config3,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.1377778 (large)
+
+#config4 vs config5
+
+> VD.A(config4,config5)
+
+Vargha and Delaney A
+
+A estimate: 0.7988889 (large)
+
+#config4 vs config6
+
+> VD.A(config4,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.5388889 (negligible)
+
+#config5 vs config6
+
+> VD.A(config5,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.2211111 (large)

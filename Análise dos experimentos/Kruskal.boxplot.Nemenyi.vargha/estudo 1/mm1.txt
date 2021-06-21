@@ -1,0 +1,178 @@
+# Listas
+
+config1 <- c(0.542573, 0.511247, 0.560564, 0.530930, 0.556288, 0.594696, 0.640500, 0.643880, 0.539615, 0.544483, 0.645981, 0.652843, 0.511580, 0.579171, 0.561755, 0.565094, 0.679526, 0.511234, 0.597313, 0.623547, 0.665910, 0.804802, 0.697395, 0.569931, 0.646123, 0.559817, 0.534973, 0.537027, 0.543373, 0.578587)
+config2 <- c(0.593804, 0.655254, 0.674104, 0.515927, 0.635399, 0.564083, 0.635893, 0.751008, 0.601104, 0.600123, 0.514018, 0.699837, 0.650075, 0.546982, 0.515941, 0.601920, 0.617022, 0.522546, 0.566351, 0.566795, 0.604887, 0.625088, 0.515890, 0.545437, 0.584537, 0.515447, 0.516090, 0.860837, 0.606038, 0.567444)
+config3 <- c(0.416152, 0.416442, 0.403004, 0.423883, 0.675400, 0.431186, 0.431236, 0.419717, 0.425339, 0.385072, 0.455427, 0.425063, 0.423014, 0.425192, 0.331292, 0.443202, 0.414895, 0.410898, 0.402087, 0.671540, 0.431184, 0.585355, 0.350183, 0.378119, 0.428985, 0.594114, 0.410600, 0.412228, 0.507848, 0.430076)
+config4 <- c(0.415169, 0.426127, 0.412825, 0.426432, 0.571549, 0.412890, 0.663559, 0.337329, 0.663176, 0.414845, 0.431647, 0.441140, 0.581455, 0.396634, 0.437072, 0.608561, 0.428164, 0.509480, 0.577353, 0.423898, 0.637962, 0.429263, 0.414493, 0.430108, 0.410782, 0.397735, 0.694227, 0.432459, 0.448570, 0.438380)
+config5 <- c(0.298186, 0.333928, 0.297276, 0.315779, 0.317445, 0.319434, 0.266722, 0.311031, 0.416038, 0.346201, 0.313654, 0.319658, 0.283606, 0.300700, 0.319884, 0.314505, 0.326037, 0.436386, 0.311676, 0.328457, 0.738753, 0.330902, 0.319997, 0.340609, 0.653451, 0.658965, 0.557042, 0.325521, 0.339444, 0.298009)
+config6 <- c(0.368763, 0.411404, 0.413585, 0.431922, 0.417060, 0.399513, 0.384583, 0.430088, 0.435263, 0.403417, 0.464359, 0.435417, 0.477965, 0.344236, 0.385709, 0.407736, 0.659536, 0.407069, 0.465332, 0.400810, 0.713935, 0.621378, 0.390052, 0.415542, 0.398129, 0.390330, 0.382397, 0.414118, 0.390420, 0.455947)
+
+
+#boxplot
+
+boxplot(config1, config2, config3, config4, config5, config6, main="Results for MM1", names=c("config1", "config2", "config3", "config4", "config5", "config6"), ylab="hypervolume")
+
+
+# Kruskal-Wallis
+
+y <- c(config1, config2, config3, config4, config5, config6)
+aux <- c( rep(1,length(config1)), rep(2,length(config2)), rep(3,length(config3)), rep(4,length(config4)), rep(5,length(config5)), rep(6,length(config6)))
+group <- as.factor(aux)
+kruskal.test(y ~group)
+
+# Resultados do Kruskal-Wallis
+
+ Kruskal-Wallis rank sum test
+
+data:  y by group
+Kruskal-Wallis chi-squared = 88.02, df = 5, p-value < 2.2e-16 (TEM DIFERENÇA ESTATÌSTICAs)
+
+
+# Nemenyi, vamos deixar pronto para sabermos onde está a diferença, quem difere de quem <https://operdata.com.br/blog/teste-de-kruskal-wallis-e-o-teste-de-nemenyi/>
+
+install.packages('PMCMR')
+library('PMCMR')
+methods <- factor(aux, labels=c("config1", "config2", "config3", "config4", "config5", "config6"))
+posthoc.kruskal.nemenyi.test(x=y, g=methods, method="Tukey")
+
+#Resultados do Nemenyi
+
+	  Pairwise comparisons using Tukey and Kramer (Nemenyi) test      
+                   with Tukey-Dist approximation for independent samples 
+
+data:  y and methods 
+
+        config1 config2 config3 config4 config5
+config2 0.99992 -       -       -       -      
+config3 0.00012 4.3e-05 -       -       -      
+config4 0.01315 0.00601 0.85149 -       -      
+config5 2.9e-12 5.6e-13 0.04316 0.00067 -      
+config6 8.0e-06 2.4e-06 0.99351 0.51215 0.17755
+
+P value adjustment method: none 
+
+
+# Vargha Delaney, como se compara em duplas, precisa fazer todas as combinações
+
+install.packages('effsize')
+library('effsize')
+
+#config1 vs config2
+
+VD.A(config1,config2)
+
+Vargha and Delaney A
+
+A estimate: 0.4611111 (negligible)
+
+#config1 vs config3
+
+VD.A(config1,config3)
+
+Vargha and Delaney A
+
+A estimate: 0.9 (large)
+
+#config1 vs config4
+
+VD.A(config1,config4)
+
+Vargha and Delaney A
+
+A estimate: 0.81 (large)
+
+#config1 vs config5
+
+VD.A(config1,config5)
+
+Vargha and Delaney A
+
+A estimate: 0.8977778 (large)
+
+#config1 vs config6
+
+VD.A(config1,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.9166667 (large)
+
+#config2 vs config3
+
+VD.A(config2,config3)
+
+Vargha and Delaney A
+
+A estimate: 0.9088889 (large)
+
+#config2 vs config4
+
+VD.A(config2,config4)
+
+Vargha and Delaney A
+
+A estimate: 0.82 (large)
+
+#config2 vs config5
+
+VD.A(config2,config5)
+
+Vargha and Delaney A
+
+A estimate: 0.9022222 (large)
+
+#config2 vs config6
+
+VD.A(config2,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.9166667 (large)
+
+#config3 vs config4
+
+VD.A(config3,config4)
+
+Vargha and Delaney A
+
+A estimate: 0.3833333 (small)
+
+#config3 vs config5
+
+VD.A(config3,config5)
+
+Vargha and Delaney A
+
+A estimate: 0.8344444 (large)
+
+#config3 vs config6
+
+VD.A(config3,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.58 (small)
+
+#config4 vs config5
+
+VD.A(config4,config5)
+
+Vargha and Delaney A
+
+A estimate: 0.85 (large)
+
+#config4 vs config6
+
+VD.A(config4,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.6766667 (medium)
+
+#config5 vs config6
+
+VD.A(config5,config6)
+
+Vargha and Delaney A
+
+A estimate: 0.1722222 (large)
