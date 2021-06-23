@@ -14,4 +14,4 @@ Após isto, devera seguir o tutorial disponível neste [link](https://drive.goog
 
 No mesmo link do tutorial, você também pode fazer o download do modelo de arquivo de script dos testes estatísticos utilizado neste trabalho. Basta baixar o arquivo, substituir os dados de exemplo pelos seus dados coletados (Hypervolume), e executar utilizando a ferramenta do R-Lang.
 
-Em caso de dúvidos, envie-nos sugestões por meio de _issues_ e estamos pronto a responder-lhe.
+Em caso de dúvidos, envie-nos sugestões por meio de _issues_ e estaremos prontos para lhe responder.
