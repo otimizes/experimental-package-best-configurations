@@ -1,5 +1,7 @@
 # experimental-package-best-configurations
 
+https://figshare.com/s/783046b235074acba92b
+
 Para replicar os experimentos, basta fazer o download da ferramenta [OPLA-Tool](https://github.com/otimizes/OPLA-Tool) e configurá-la utilizando as seguintes configurações:
 | Descrição | População | Gerações | Aval. Aptidão | Operadores cruz. & mut. | Prob. Cruzamento | Prob. Mutação |
 |---|---|---|---|---|---|---|
